@@ -1,29 +1,47 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { themeChange } from "theme-change";
+let theme = "default";
 
-const themes = ["default", "dark", "pink"];
+const changeThemes = ($theme?: string) => {
+	theme = $theme || "default";
+	const link = createLink();
+	link.href = `src/themes/${theme}.css`;
+	return theme;
+};
 
-onMounted(() => {
-	themeChange(false);
-});
+const createLink = (() => {
+	let link: HTMLLinkElement | null = null;
+	return () => {
+		if (link) {
+			return link;
+		}
+		link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		(document.querySelector("head") as HTMLElement).appendChild(link);
+		return link;
+	};
+})();
 </script>
 
 <template>
 	<div>
-		<button data-set-theme="">default</button>
-		<button data-set-theme="dark">dark</button>
-		<button data-set-theme="pink">pink</button>
+		<button @click="changeThemes('default')">default</button>
+		<button @click="changeThemes('dark')">dark</button>
+		<button @click="changeThemes('pink')">pink</button>
 	</div>
 
-	<div
-		style="
-			height: 500px;
-			background: #fff;
-			margin: 20px;
-			color: var(--my-color);
-		"
-	>
-		hello world
-	</div>
+	<div class="box">hello world</div>
 </template>
+<style>
+body {
+	background-color: var(--my-color);
+}
+.box {
+	height: 500px;
+	background: #fff;
+	margin: 20px;
+	border: 1px solid #000;
+	color: var(--my-color);
+}
+</style>
