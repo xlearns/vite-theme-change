@@ -1,0 +1,20 @@
+*{
+  margin:0;
+  padding:0;
+}
+
+:root {
+  /* 默认 */
+  --my-color: #fff;
+}
+
+[data-theme='dark'] {
+  --my-color: #000;
+}
+[data-theme='pink'] {
+  --my-color: #ffabc8;
+}
+
+body {
+  background-color: var(--my-color);
+}
